@@ -1,0 +1,149 @@
+extends layout.jade
+
+block content
+ // h1 Hola mundo desde Jade (Comentario de HTML)
+ //- h2 Estaciones del anio (Comentario de Jade)
+ // Comentario bloque html
+  ul 
+   li Primavera
+     ol 
+        li Abril
+        li Mayo
+        li Junio
+   li Verano
+     ol 
+        li Julio
+        li Agosto
+        li Septiembre
+   li Otonio
+     ol 
+        li Octubre 
+        li Noviembre
+        li Diciembre
+   li Invierno
+     ol 
+        li Enero
+        li Febrero
+        li Marzo
+   li ola
+  
+ //- Comentario bloque jade
+  ul 
+   li Primavera
+     ol 
+        li Abril
+        li Mayo
+        li Junio
+   li Verano
+     ol 
+        li Julio
+        li Agosto
+        li Septiembre
+   li Otonio
+     ol 
+        li Octubre 
+        li Noviembre
+        li Diciembre
+   li Invierno
+     ol 
+        li Enero
+        li Febrero
+        li Marzo
+   li ola
+ 
+ //- nuestra variable hecha en el index.js
+ article#jade.container
+     h1
+      a(href="#{link}", target="_blank")= title
+     p(style="font-weight: Bold;") See the ducumentation Tai
+     
+     p= description 
+     hr
+     h2 Una lista xd
+     ul.not
+       li Primavera
+         ol 
+            li Abril
+            li Mayo
+            li Junio
+       li Verano
+         ol 
+            li Julio
+            li Agosto
+            li Septiembre
+       li Otonio
+         ol 
+            li Octubre 
+            li Noviembre
+            li Diciembre
+       li Invierno
+         ol 
+            li Enero
+            li Febrero
+            li Marzo
+       li ola
+       
+      script
+        console.log 'This is coffee script' 
+ article(class="not")
+    h2 Estructura Basica de Jade 
+    p Este archivo HTML es generado con el motor de plantillas Jade 
+    p.   
+         Para concatenar contenido 
+         en varias lienas 
+         se usa el pipe '|'
+
+    include logo
+ article.container
+   //Interpolacion
+   p.
+     Si te gusta la forma en que Jade genera codigo HTML 
+     puedes leer la documentacion del 
+      #[a(href="http://jade-lang.com/api", target="_blank") API],
+      la referencia del 
+      #[a(href="http://jade-lang.com/reference", target="_blank") Lenguaje]
+      y de la 
+      <a href="http://jade-lang.com/command-line" target="_blank">Linea de comandos</a>
+ br
+ button#presioname.boton  Presioname
+ //- Js
+ //Para poder mandar codigo js necesitamos interpolar
+ script.
+  //-  alert("Javascript ejecutado desde Jade")
+  document.addEventListener("click", (e) => {
+    if (e.target.matches("#presioname")){
+      alert("Presionaste el botón")
+    }
+  })
+ -var nombre = "Jade"
+ p Hola #{nombre}
+
+ -var fecha = new Date()
+ -var hora = fecha.getHours()
+
+ if (hora < 12)
+    p La hora #{hora} es Antes del Meridiano (AM)
+  else 
+    p La hora #{hora} es Posterior del Meridiano (PM)
+ 
+ -var estaciones = ["Primavera", "Verano", "Otonio", "Invierno"]
+
+ h2.not Estaciones del Anio 
+   ol 
+    each station in estaciones
+      li #{station}  
+
+     //- Los mixin son funciones en Jade
+ mixin mesesEstacionesMexico(estacion, meses)
+   div.item
+     h3 #{estacion}
+     ol 
+       each mes in meses 
+         li #{mes}
+
+ article.not
+   h2 Estaciones del anio en México 
+   +mesesEstacionesMexico(estaciones[0], ["Abril", "Mayo", "Junio"])        
+   +mesesEstacionesMexico(estaciones[1], ["Julio", "Agosto", "Septiembre"])        
+   +mesesEstacionesMexico(estaciones[2], ["Octubre", "Noviembre", "Diciembre"])        
+   +mesesEstacionesMexico(estaciones[3], ["Enero", "Febrero", "Marzo"])        

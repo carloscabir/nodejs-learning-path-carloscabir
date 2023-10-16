@@ -1,0 +1,104 @@
+html {
+  box-sizing: border-box;
+  font-family: sans-serif;
+  font-size: 16px;
+  background-color: #1d1d1d;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+p,
+h1,
+label {
+  color: thistle;
+}
+
+h1 {
+  margin: 2rem 0;
+}
+
+a {
+  color: rgb(114, 99, 114);
+  transition: all 0.4s ease-in-out;
+}
+
+a:hover {
+  opacity: 0.75;
+}
+
+fieldset {
+  padding: 1rem;
+  border: medium solid thistle;
+}
+
+.error {
+  font-size: 2rem;
+  background-color: thistle;
+  color: black;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+.poster {
+  width: 10rem;
+  height: auto;
+  padding: 1rem;
+}
+
+.table {
+  width: 100%;
+  height: auto;
+}
+
+.table td,
+.table th {
+  padding: 1rem;
+}
+
+.table tr:first-child {
+  background-color: #222;
+  color: white;
+}
+
+.table tr:nth-child(even) {
+  background-color: rgb(88, 77, 99);
+  color: white;
+}
+
+.table tr:nth-child(odd):not(:first-child) {
+  background-color: rgb(148, 127, 148);
+  color: black;
+}
+
+.button {
+  padding: 0.5rem 1rem;
+  color: #000;
+  background-color: thistle;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  border-radius: 1rem;
+}
+
+.button:hover {
+  opacity: 0.75;
+}
+
+.add {
+  background-color: thiste;
+}
+
+.edit {
+  background-color: darkgray;
+}
+
+.delete {
+  background-color: rgb(85, 84, 84);
+}
+
+.me {
+  margin: 1rem auto;
+}

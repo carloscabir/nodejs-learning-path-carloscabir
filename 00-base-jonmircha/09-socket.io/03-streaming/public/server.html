@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Servidor de Streaming</title>
+  </head>
+  <body>
+    <h1>Servidor de Streaming</h1>
+    <p>Esta pagina transmite en tiempo real el streaming de la camara web</p>
+    <video id="video"></video>
+    <canvas id="canvas" width="1280" height="720"></canvas>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      ((io, d, n, w) => {
+        "use strict";
+
+        let socket = io(),
+          startCamera = false,
+          $video = d.getElementById("video"),
+          $canvas = d.getElementById("canvas"),
+          contextCanvas = $canvas.getContext("2d");
+
+        n.streaming = n.getUserMedia;
+
+        n.streaming(
+          {
+            video: true,
+            // audio: true,
+            audio: false,
+          },
+          (stream) => {
+            startCamera = true;
+            $video.srcObject = stream;
+            // $video.play();
+          },
+          (err) => {
+            $video.insertAdjacentHTML(
+              "afterend",
+              `<h2><em>Error al acceder a la camara web: ${err}</em></h2>`
+            );
+          }
+        );
+
+        //Otro prototipo
+        w.playVideo = ((cb) => {
+          // Unica opcion debido a que es un estandar en todos los navegadores.
+          return (
+            w.requestAnimationFrame ||
+            function (cb) {
+              // Si es que no existe XD
+              // Frames por segundo
+              w.setTimeout(cb, 1000 / 200);
+            }
+          );
+        })();
+
+        const streamVideo = (context, canvas, video) => {
+          let outputStream = canvas.toDataURL("image/jpeg", 0.3);
+          context.drawImage(video, 0, 0); // Video y posicion "x" y "y"
+
+          // Validar startCamera y inicializar un evento
+          if (startCamera) socket.emit("streaming", outputStream);
+
+          playVideo(() => {
+            // Funcion recursiva para animar nuestro canvas
+            streamVideo(context, canvas, video);
+          });
+        };
+
+        w.addEventListener("load", (e) => {
+          $video.autoplay = true;
+          $video.style.display = "none";
+          streamVideo(contextCanvas, $canvas, $video);
+        });
+      })(io, document, navigator, window);
+    </script>
+  </body>
+</html>

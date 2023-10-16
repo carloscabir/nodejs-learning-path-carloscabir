@@ -1,0 +1,43 @@
+extends layout
+
+block content
+    section.container
+        include header
+        article.item
+          -if(data.length)
+              table.table
+                tr
+                  th Id
+                  th Titulo
+                  th Año
+                  th Puntuación
+                  th Poster
+                  th(colspan="2")
+                      form(method="get" action="/agregar")
+                          input.button.add(type="submit", value="Agregar")
+                -each movie in data
+                  tr
+                    td #{movie.movie_id}
+                    td #{movie.title}
+                    td #{movie.release_year}
+                    td #{movie.rating}
+                    td 
+                        img(src="#{movie.image_movie}", alt="#{movie.title}" class="poster")
+                    td
+                        form(method="GET", action="/editar/#{movie.movie_id}")
+                            input.button.edit(type="submit", value="Editar")
+                    td
+                        form(method="POST", action="/eliminar/#{movie.movie_id}")
+                            input.button.delete(type="button", value="Eliminar", onclick="eliminar(this)", data-name="#{movie.title}")
+                            input(type="hidden", name="_method" value="DELETE")
+                    script.
+                          function eliminar (input)
+                          {
+                            let deleteOk = confirm(`Estas seguro de eliminar la pelicula "${input.dataset.name}"`)
+                        
+                            return (deleteOk) ? input.parentNode.submit() : false
+                          }
+          -else
+              p.error No existen Peliculas en la data-base
+    p Soy tu amigo y docente digital... Carlos CaBi 
+    

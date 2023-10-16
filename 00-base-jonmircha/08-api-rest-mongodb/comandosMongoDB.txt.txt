@@ -1,0 +1,18 @@
+Mongo es lazy, flojo puede crearse al momento de ser requerido
+
+mongod => Ejecutamos el Demonio (servicio) de MongoDB
+mongo => Ejecutamos el cliente de la terminal de comandos
+
+show dbs => Mostrar Databases
+use => dbname
+db => show db name
+db . => all methods to execute
+show collections => (redundante)
+db.collection => create collection "razas" 
+db.collection.insertOne({"campo": "valor"})
+db.collection.save({"_id": "value", "campo": "valor"}) => save or insert to the indicated ID 
+db.collection.remove({"campo": "valor"}) => remove a document
+db.collection.find() => show all docs
+db.collection.find().pretty() => show all docs "pretty"
+db.collection.findOne({"campo": "valor"}) => show a document specific
+db.collection.count() => count our documents 

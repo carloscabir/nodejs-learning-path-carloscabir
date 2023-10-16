@@ -1,0 +1,67 @@
+<!-- Too esto sera codigo html, comun y corriente xd (exepto el codigo JS, que va a ver detalles mas adelante); mientras haremos una transpilacion -->
+
+<article id="ejs" class="container">
+  <h1>
+    <a href="<%=link%>" target="_blank">
+      <%=title%>
+    </a>
+  </h1>
+  <p style="font-weight: bold">See the ducumentation Tai</p>
+  <p>
+    <%=description%>
+  </p>
+  <hr />
+  <h2>Una lista xd</h2>
+  <ul>
+    <ol class="not">
+      <li>
+        Primavera
+        <ol>
+          <li>Abril</li>
+          <li>Mayo</li>
+          <li>Junio</li>
+        </ol>
+      </li>
+      <li>
+        Verano
+        <ol>
+          <li>Julio</li>
+          <li>Agosto</li>
+          <li>Septiembre</li>
+        </ol>
+      </li>
+      <li>
+        Otonio
+        <ol>
+          <li>Octubre</li>
+          <li>Noviembre</li>
+          <li>Diciembre</li>
+        </ol>
+      </li>
+      <li>
+        Invieno
+        <ol>
+          <li>Enero</li>
+          <li>Febrero</li>
+          <li>Marzo</li>
+        </ol>
+      </li>
+      <li>ola</li>
+    </ol>
+  </ul>
+  <div id="logo-enloquent">
+    <img src="../public/img/chapter_picture_1.jpg" alt="img" />
+  </div>
+  <button id="presioname">Presioname</button>
+  <script>
+    document.addEventListener("click", e => {
+      if (e.target.matches("#presioname")) {
+        alert("Presionaste el boton")
+      }
+    })
+  </script>
+</article>
+<article class="container">
+  <h2>Estaciones del Anio en Mexico</h2>
+
+</article>

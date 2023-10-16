@@ -1,0 +1,45 @@
+// * Conceptios basicos
+// La base de datos esta dividida en colecciones
+// Las colecciones tienen documentos
+// Los documentos son objetos BSON (JSON Binario)
+
+// * Colecciones
+// Puede alojar cuealquier documento (no impone estructura)
+// Puede alojar documentos con diferentes formas
+// Operaciones de consulta
+// Es donde se ponen los indices
+
+
+
+// Linea de comandos MongoDB
+
+// * Operaciones en COLECCIONES
+collection.save: guardar/actualizar un documento
+collection.insert: inserta un documento
+collection.findOne: recuperar un documento
+collection.find: recuperar varios documentos
+collection.remove: borrar uno o varios documentos
+collection.drop: elimina una coleccion
+collection.rename: cambia de nombre la coleccion
+collection.count: numero de documentos
+
+// * Operadores de Busqueda
+$gt / $gte: mayor/mayor o igual
+$lt / $lte: menor/menor o igual
+$ne: diferente
+$in / $nin: en/no en array de valores
+
+// * Consulta
+// El operador find(...) devuelve un cursor
+cursor.count(cb): cantidad de documentos
+cursor.limit(n): limitar a n documentos
+cursor.skip(n): saltarse los n primeros documentos
+cursor.nextObject(cb): siguente documento (paginacion)
+cursor.each(cb): para cada documento, en orden
+cursor.toArray(cb): convierte el cursor en array
+
+// * Ordenamiento
+cursor.sort(options, cb)
+Options types:
+	[["campo", 1], ["otroCampo", -1]]
+	1 ascendente, -1 descendente

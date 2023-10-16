@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cliente de Streaming</title>
+  </head>
+  <body>
+    <h1>Cliente de Streaming</h1>
+    <p>
+      Esta pagina recibe en tiempo real el streamin de la camara web del usuario
+      que genera la transmision
+    </p>
+    <img id="streaming" />
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      ((io, d) => {
+        "use strict";
+
+        let socket = io();
+
+        socket.on("play stream", (image) => {
+          d.getElementById("streaming").src = image.image;
+        });
+      })(io, document);
+    </script>
+  </body>
+</html>

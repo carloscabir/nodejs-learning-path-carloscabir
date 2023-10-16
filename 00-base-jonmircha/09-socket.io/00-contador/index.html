@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contador Socket.io</title>
+</head>
+
+<body>
+  <h1>Comunicacion bidireccional con Socket.io</h1>
+  <p id="hi"></p>
+  <p>
+    Numero de conexiones activas: <b id="connections"></b>
+  </p>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    let socket = io(),
+      d = document;
+
+    socket.on("hi", (data) => {
+      console.log(data)
+
+      d.getElementById("hi").textContent = data.message;
+
+      socket.emit("otro evento que me invente", { name: "Carlos CaBi" })
+
+
+    })
+
+    socket.on("connect users", (data) => {
+      console.log(`Actualizando desde el Servidor.. Hay ${data.numbers} conexiones`);
+
+      d.getElementById("connections").textContent = data.numbers
+    })
+
+    socket.emit("userAgent", { user: window.navigator.userAgent })
+
+    socket.on("userAgent", (msg) => {
+      msg = JSON.parse(msg)
+      let $h2 = document.createElement("h4");
+
+      $h2.textContent = msg.user;
+
+      document.body.appendChild($h2)
+    })
+  </script>
+</body>
+
+</html>

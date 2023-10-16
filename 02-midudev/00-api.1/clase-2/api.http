@@ -1,0 +1,15 @@
+### Response de Pokemon ditto
+GET http://localhost:3000/pokemon/ditto
+
+### Para crear un pokemon
+
+POST http://localhost:3000/pokemon/ditto
+Content-Type: application/json
+
+{
+  "name": "pikachu",
+  "type": "normal",
+  "moves": [
+    "thunder"
+  ]
+}
