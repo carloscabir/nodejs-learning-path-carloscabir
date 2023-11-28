@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node app.js",
-    "dev": "node --watch app.js"
+    "start:mysql": "node --watch server-with-mysql.js",
+    "start:local": "node --watch server-with-local.js"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +15,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "4.18.2",
+    "mysql2": "^3.6.2",
     "zod": "^3.22.2"
   }
 }

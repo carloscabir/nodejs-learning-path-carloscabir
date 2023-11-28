@@ -1,56 +1,59 @@
-import { MovieModel } from "../models/local-file-system/movie.js";
 import { validateMovie, validatePartialMovie } from "../schemas/movies.js";
 
 export class MovieController { 
-  static async getAll (req, res) {
-  const { offset, limit, ...filters } = req.query;
+  constructor({ movieModel }) { 
+    this.movieModel = movieModel
+  }
   
-  const movies = await MovieModel.getAll({offset, limit, filters})
+  getAll = async (req, res) => {
+  let { offset, limit, ...filters } = req.query;
+  
+  const movies = await this.movieModel.getAll({offset, limit, filters})
   if (!movies) return res.status(500).json({ message: "505: Internal Server Error"})
   
   res.status(200).json(movies)
   }
   
-  static async getById  (req, res) {
+    getById  = async (req, res) => {
   const { id } = req.params;
 
- const movie = await MovieModel.getById({ id })
+ const movie = await this.movieModel.getById({ id })
 
   if (!movie) return res.status(404).json({message: "404: Movie not found"})
 
   res.status(200).json(movie)
   }
   
-  static async create (req, res)  {
+    create = async (req, res) =>  {
     const result = validateMovie(req.body);
    if (result.error) return res.status(400).json({ error: JSON.parse(result.error.message) }); //422
 
 
-  const newMovie = await MovieModel.create({ input: result.data})
+  const newMovie = await this.movieModel.create({ input: result.data})
   
   res.status(201).json(newMovie)
   }
   
-  static async delete (req, res)  {
+    delete = async (req, res) =>  {
   const { id } = req.params;
  
-  const result = await MovieModel.delete({ id })
+  const result = await this.movieModel.delete({ id })
  
   if (!result) { 
     return res.status(404).json({ message: "404: Movie not found"})
   }
 
-   res.status(200).json({ message: `Movie ${id} deleted succesfully` });  
+   res.status(200).json({ message: `Movie "${id}" deleted succesfully` });  
   }
 
-  static async uptade (req, res)  {
+    uptade = async (req, res) =>  {
   const result = validatePartialMovie(req.body);
 
   if (!result.success)
     return res.status(400).json({ error: JSON.parse(result.error.message) });
 
   const { id } = req.params;
-  const updatedMovie = await MovieModel.update({ id, input: result.data })
+  const updatedMovie = await this.movieModel.update({ id, input: result.data })
 
   if (!updatedMovie) return res.status(404).json({ message: "404: Movie not found"}) 
 
@@ -58,3 +61,5 @@ export class MovieController {
 }
   
 }
+
+// const movieController = new MovieController({MovieModel})
