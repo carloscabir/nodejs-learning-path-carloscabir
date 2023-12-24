@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>carlosChat</title>
+  <script type="module">
+  import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js"
+
+  const getUsername = async () => {
+    const username = localStorage.getItem("username")
+
+    if (username) console.log(`User "${username}" exists!`)
+
+    const randomUsername = window.prompt("Escribe tu nombre!!")
+    const clientTitle = document.getElementById("clientTitle")
+
+
+    // const res = await fetch("https://random-data-api.com/api/users/random_user")
+    // const {username: randomUsername } = await res.json()
+
+    localStorage.setItem("username", randomUsername)
+    clientTitle.textContent = `Chat de ${randomUsername || "Anonymous"}!!`
+
+    return randomUsername
+  }
+
+
+  // SERVER JUST ALLOW ISO DATE FORMAT
+  const socket = io({
+    auth: { 
+    username: await getUsername(),
+    serverOffset: new Date().toISOString()
+    }
+  })
+
+  const form = document.getElementById("form")
+  const input = document.getElementById("input")
+  const messages = document.getElementById("messages")
+
+  socket.on("chat message", (msg, serverOffset)  => {
+    const { message, author, createdAt, id } = msg 
+    const messageTime = new Date(createdAt)
+    
+    const item = `
+      <li>
+      <b class="message-author">~ ${author}</b>  
+      <p class="message-content">${message}</p>
+      <small class="message-hour">${messageTime.getHours()}:${messageTime.getMinutes()}</small>
+      </li>`
+    messages.insertAdjacentHTML("beforeend", item)
+    
+    // scroll to bottom
+    messages.scrollTop = messages.scrollHeight
+
+    if (new Date(serverOffset).getTime() < new Date(socket.auth.serverOffset).getTime()) socket.auth.serverOffset = serverOffset
+  })
+  
+  form.addEventListener("submit", e => {
+    e.preventDefault()
+
+    if(input.value) {
+      socket.emit("chat message", input.value)
+      input.value = ""
+    }
+  })
+  </script>
+  <style>
+    *,
+    *:before,
+    *:after{
+      box-sizing: border-box;
+    }
+
+    body{
+      font-family: sans-serif;
+      display: grid;
+      place-content: center;
+      height: 100vh;
+      padding: 100px 36px;
+      grid-template-rows: 1fr;
+      overflow-y: hidden;
+      background-color: #121212;
+      color: #ccc;
+    }
+    
+    /* 
+    :root{
+      color-scheme: light dark;
+    } */
+
+    .chat{
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      overflow: hidden;
+      width: minmax(370px, 450px);
+      height: 100%;
+      position: relative;
+    }
+
+    #form {
+      bottom: 0;
+      display: flex;
+      height: 48px;
+      left: 0;
+      padding: 4px;
+      position: absolute;
+      right: 0;
+    }
+
+    #input {
+      color: #ccc;
+      border-radius: 9999px;
+      background-color: #3b3b3b;
+      border: solid #eee thin;
+      flex: 1;
+      margin: 4px;
+      padding: 0 8px;
+    }
+
+    #input:focus{
+      outline: 0;
+    }
+
+    #form > button {
+      background-color: #09f;
+      color: #fff;
+      border: 0;
+      margin: 4px;
+      border-radius: 4px;
+    }
+
+    #form > button:hover {
+      opacity: .7;
+    }
+    
+
+    #messages {
+      list-style-type: none;
+      margin: 20px 0;
+      overflow-y: scroll;
+      height: 100%;
+      scroll-behavior: smooth;
+      padding-bottom: 60px;
+    }
+
+    #messages > li {
+      background-color: #464d57;
+      width:  50%;
+      height: fit-content;
+      position: relative;
+      padding: 3px 10px;
+      border-radius: 0 3px 3px 3px;
+      margin-bottom: 10px;
+    }
+
+    .message-content {
+      padding: 0;
+      margin: 0;
+    }
+
+    .message-author {
+      font-size: 12px;
+      text-align: left;
+      padding-bottom: 12px;
+    }
+    
+    .message-hour {
+      font-size: 10px;
+      padding: 0 80%;
+    }
+  </style>
+</head>
+<body>
+  <section class="intro">
+    <h1 id="clientTitle"></h1>
+  </section>
+  <section class="chat" id="chat">
+    <ul id="messages"></ul>
+    <form id="form">
+      <input type="text" name="message" id="input" placeholder="Type a message" autocomplete="off">
+      <button type="submit">Send</button>
+    </form>
+  </section>
+</body>
+</html>
